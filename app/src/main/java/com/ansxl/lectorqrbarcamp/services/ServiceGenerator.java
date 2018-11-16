@@ -26,7 +26,7 @@ public class ServiceGenerator {
     private static OkHttpClient okHttpClient;
 
     private static Gson mGson = new GsonBuilder()
-            .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
+            .setLenient()
             .create();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()

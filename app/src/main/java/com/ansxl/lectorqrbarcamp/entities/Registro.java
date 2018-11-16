@@ -1,7 +1,5 @@
 package com.ansxl.lectorqrbarcamp.entities;
 
-import java.sql.Date;
-
 public class Registro {
     private int id;
     private String cedula;
@@ -49,4 +47,5 @@ public class Registro {
     public void setSize(String size) {
         this.size = size;
     }
+
 }
