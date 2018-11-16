@@ -86,7 +86,12 @@ public class MainActivity extends AppCompatActivity {
                                                            if(response.body()==null){
                                                                Toast.makeText(getApplicationContext(), "empty", Toast.LENGTH_LONG).show();
                                                            }else{
-                                                               Toast.makeText(getApplicationContext(), ""+response.body(), Toast.LENGTH_LONG).show();
+                                                               Toast.makeText(getApplicationContext(), ""+response.body(), Toast.LENGTH_SHORT).show();
+                                                               int position = getPosition(registro);
+                                                               if(position!=-1){
+                                                                   registros.remove(position);
+                                                                   registroAdapter.notifyDataSetChanged();
+                                                               }
                                                            }
                                                        }
                                                    }
@@ -107,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-
                 @Override
                 public void onFailure(Call<List<Registro>> call, Throwable t) {
                     if (t instanceof IOException) {
@@ -122,4 +126,14 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
+    public int getPosition(Registro registro){
+        for(int i=0; i<registros.size();i++){
+            if (registro.getId()==registros.get(i).getId()){
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }
