@@ -13,5 +13,7 @@ public interface Service {
     @GET("registros")
     Call<List<Registro>> getRegistros();
     @POST("confirmar/")
-    Call<Registro> getQuestions(@Query(value = "id", encoded = true) String query);
+    Call<String> confirmar(@Query(value = "id", encoded = true) String query);
+    @GET("consultarRegistro/")
+    Call<Registro> consultar(@Query(value = "id", encoded = true) String query);
 }

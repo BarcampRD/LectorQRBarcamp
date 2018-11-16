@@ -41,7 +41,7 @@ public class RegistroAdapter extends RecyclerView.Adapter<RegistroAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Registro registro = registros.get(position);
-        holder.size.setText("Size: "+registro.getSizeCamiseta());
+        holder.size.setText("Size: "+registro.getSize());
         holder.cedula.setText(registro.getCedula());
         holder.nombre.setText(registro.getNombre());
 

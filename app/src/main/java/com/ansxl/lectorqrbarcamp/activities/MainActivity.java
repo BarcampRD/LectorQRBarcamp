@@ -1,5 +1,6 @@
 package com.ansxl.lectorqrbarcamp.activities;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        registrosRecycler = findViewById(R.id.registrosRecycler);
         linearLayoutManager = new LinearLayoutManager(this);
+        registrosRecycler.setLayoutManager(linearLayoutManager);
         loadRegistros();
     }
 
     void loadRegistros(){
-        Service service = ServiceGenerator.createService(Service.class);
+        final Service service = ServiceGenerator.createService(Service.class);
         Call<List<Registro>> registros1 = service.getRegistros();
         if(registros1!=null){
             registros1.enqueue(new Callback<List<Registro>>() {
@@ -61,12 +64,38 @@ public class MainActivity extends AppCompatActivity {
                     registrosRecycler.setAdapter(registroAdapter);
                     registroAdapter.setOnRegistroClickListener(new RegistroAdapter.OnRegistroClickListener() {
                         @Override
-                        public void OnRegistroClick(Registro registro) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+                        public void OnRegistroClick(final Registro registro) {
+                            android.support.v7.app.AlertDialog.Builder builder;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                            } else {
+                                builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+                            }
                             builder.setMessage("Desea confirmar al participante #" + registro.getId() + " "+registro.getNombre())
                                     .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            // FIRE ZE MISSILES!
+                                           Call<String> stringCall = service.confirmar(String.valueOf(registro.getId()));
+
+                                           if(stringCall!=null){
+                                               stringCall.enqueue(new Callback<String>() {
+                                                   @Override
+                                                   public void onResponse(Call<String> call, Response<String> response) {
+                                                       if(response.code()==404){
+                                                           Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_LONG).show();
+                                                       } else {
+                                                           if(response.body()==null){
+                                                               Toast.makeText(getApplicationContext(), "empty", Toast.LENGTH_LONG).show();
+                                                           }else{
+                                                               Toast.makeText(getApplicationContext(), ""+response.body(), Toast.LENGTH_LONG).show();
+                                                           }
+                                                       }
+                                                   }
+                                                   @Override
+                                                   public void onFailure(Call<String> call, Throwable t) {
+                                                       Toast.makeText(getApplicationContext(), ""+t.toString(), Toast.LENGTH_LONG).show();
+                                                   }
+                                               });
+                                           }
                                         }
                                     })
                                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -6,18 +6,16 @@ public class Registro {
     private int id;
     private String cedula;
     private String nombre;
-    private String correo;
-    private String sizeCamiseta;
+    private String size;
 
     public Registro() {
     }
 
-    public Registro(int id, String cedula, String nombre, String correo, String sizeCamiseta) {
+    public Registro(int id, String cedula, String nombre, String size) {
         this.id = id;
         this.cedula = cedula;
         this.nombre = nombre;
-        this.correo = correo;
-        this.sizeCamiseta = sizeCamiseta;
+        this.size = size;
     }
 
     public int getId() {
@@ -44,19 +42,11 @@ public class Registro {
         this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getSize() {
+        return size;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getSizeCamiseta() {
-        return sizeCamiseta;
-    }
-
-    public void setSizeCamiseta(String sizeCamiseta) {
-        this.sizeCamiseta = sizeCamiseta;
+    public void setSize(String size) {
+        this.size = size;
     }
 }
