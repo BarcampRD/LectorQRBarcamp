@@ -12,4 +12,9 @@
         android:icon="@drawable/ic_qrcode_scan_white_48dp"
         android:title="Escanear"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_sync"
+        android:icon="@drawable/ic_account_convert_white_48dp"
+        android:title="Sincronizar"
+        app:showAsAction="ifRoom"/>
 </menu>

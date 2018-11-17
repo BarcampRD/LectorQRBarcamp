@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         if(registros1!=null){
             registros1.enqueue(new Callback<List<Registro>>() {
                 @Override
-                public void onResponse(Call<List<Registro>> call, Response<List<Registro>> response) {
+                public void onResponse(@NonNull Call<List<Registro>> call, @NonNull Response<List<Registro>> response) {
                     if(response.code()==404){
                         Toast.makeText(getApplicationContext(), "404", Toast.LENGTH_LONG).show();
                     } else {
@@ -158,6 +158,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_camera:
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
                 integrator.initiateScan();
+                return true;
+            case R.id.action_sync:
+                loadRegistros();
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
